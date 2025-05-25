@@ -25,7 +25,7 @@ export default function GoogleSignInBtn() {
       const userInfo = await GoogleSignin.signIn();
 
       if (userInfo.data?.idToken) {
-        const { data, error } = await supabase.auth.signInWithIdToken({
+        const { error } = await supabase.auth.signInWithIdToken({
           provider: "google",
           token: userInfo.data?.idToken,
         });
