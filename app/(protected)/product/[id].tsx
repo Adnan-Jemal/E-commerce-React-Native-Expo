@@ -7,17 +7,17 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router"; // Removed useNavigation as it wasn't used
+import { useLocalSearchParams } from "expo-router";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase";
-import { Ionicons, FontAwesome6 } from "@expo/vector-icons"; // Removed AntDesign as it wasn't used
+
 import ProductImages from "@/components/Details/ProductImages";
 import ProductDescription from "@/components/Details/ProductDescription";
 import RecommendedProducts from "@/components/Details/RecommendedProducts";
 import ProductInfo from "@/components/Details/ProductInfo";
 
 const ProductPage = () => {
-  const { id } = useLocalSearchParams(); // id is string | string[]
+  const { id } = useLocalSearchParams();
   const [product, setProduct] = useState<Tables<"products"> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

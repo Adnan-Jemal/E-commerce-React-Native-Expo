@@ -1,13 +1,20 @@
 import React from "react";
-import { Redirect, Stack } from "expo-router";
+import {
+  Redirect,
+  Stack,
+  useGlobalSearchParams,
+  useLocalSearchParams,
+} from "expo-router";
 import { useAuth } from "@/utils/AuthProvider";
 import { ActivityIndicator, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
+import AddToFavoriteBtn from "@/components/Details/AddToFavoriteBtn";
 
 const ProtectedLayout = () => {
   const { session, loading } = useAuth();
   const { colorScheme } = useColorScheme();
+  const { id } = useGlobalSearchParams();
 
   if (!session && loading) {
     return (
@@ -28,11 +35,26 @@ const ProtectedLayout = () => {
           headerTitle: "Back",
           headerTintColor: colorScheme == "dark" ? "white" : "black",
           headerRight: ({ tintColor }) => (
-            <Octicons name="heart" size={24} color={tintColor} />
+            <AddToFavoriteBtn
+              productId={id}
+              userId={session?.user.id}
+              tintColor={tintColor}
+            />
           ),
           headerStyle: {
             backgroundColor: colorScheme == "dark" ? "black" : "white",
           },
+        }}
+      />
+      <Stack.Screen
+        name="favorites"
+        options={{
+          headerTitle: "Favorites",
+          headerTintColor: colorScheme == "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: colorScheme == "dark" ? "black" : "white",
+          },
+          headerTitleAlign: "center",
         }}
       />
     </Stack>
