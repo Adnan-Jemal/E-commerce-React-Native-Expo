@@ -1,41 +1,66 @@
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import Logo from "@/components/Home/Logo";
 import FavoritesBtn from "@/components/Home/FavoritesBtn";
 import HomeBanner from "@/components/Home/HomeBanner";
 import SearchBar from "@/components/Home/SearchBar";
-import { categories } from "@/constants/categories";
-import { CategoryIcon } from "@/components/CategoryIocn";
+import HorizontalCategoryList from "@/components/Home/HorizontalCategoryList";
+import { supabase } from "@/utils/supabase";
+import { useEffect, useState } from "react";
+import { Tables } from "@/types/supabase";
+
+import ProductList from "@/components/ProductList";
 
 const index = () => {
+  const [popularProducts, setPopularProducts] = useState<
+    Tables<"products">[] | null
+  >(null);
+  const [loading, setLoading] = useState(false);
+  async function fetchPopularProducts() {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("products")
+      .select()
+      .order("views", { ascending: false })
+      .limit(10);
+    setPopularProducts(data);
+    setLoading(false);
+    if (error) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    fetchPopularProducts();
+  }, []);
+
   return (
-    <SafeAreaView className="dark:bg-neutral-900 flex-1 p-4 ">
-      <View className=" p-2 flex-row items-center justify-between pt-2">
-        <Logo />
-        <FavoritesBtn />
-      </View>
-      <View className="mt-6 gap-8">
-        <SearchBar />
-        <HomeBanner />
-      </View>
-      <View className="mt-6 p-2 gap-4">
-        <Text className="dark:text-white text-3xl font-bold">Categories</Text>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={categories}
-          keyExtractor={(item) => item.category}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              className="flex-row items-center mx-2 bg-white dark:bg-black p-3 rounded-xl gap-2 shadow-sm "
-            >
-              <CategoryIcon iconData={item.icon} size={28} color="#1d4ed8" />
-              <Text className="text-lg dark:text-white">{item.category}</Text>
-            </TouchableOpacity>
+    <SafeAreaView
+      edges={["left", "right", "top"]}
+      className="dark:bg-neutral-900 flex-1 px-4 "
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View className=" p-2 flex-row items-center justify-between pt-2">
+          <Logo />
+          <FavoritesBtn />
+        </View>
+        <View className="mt-6 gap-8">
+          <SearchBar />
+          <HomeBanner />
+        </View>
+        <View className="mt-4 p-2 gap-4">
+          <Text className="dark:text-white text-3xl font-bold">Categories</Text>
+          <HorizontalCategoryList />
+        </View>
+        <View className="mt-4 p-2 gap-4 w-full">
+          <Text className="dark:text-white text-3xl font-bold">Popular</Text>
+          {loading ? (
+            <ActivityIndicator color="#1d4ed8" />
+          ) : (
+            <ProductList products={popularProducts} />
           )}
-        />
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

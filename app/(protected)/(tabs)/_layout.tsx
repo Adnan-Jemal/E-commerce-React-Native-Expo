@@ -16,7 +16,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: scheme.colorScheme === "dark" ? "#171717" : "white",
           height: 90,
-          paddingTop: 10,
+          paddingTop: 10
         },
       }}
     >

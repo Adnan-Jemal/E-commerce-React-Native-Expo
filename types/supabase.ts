@@ -34,36 +34,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      products: {
+        Row: {
+          category_name: string
+          description: string
+          id: number
+          image_urls: string[]
+          inserted_at: string
+          name: string
+          original_price: number | null
+          price: number
+          short_description: string
+          slug: string
+          stock_quantity: number
+          updated_at: string
+        }
+        Insert: {
+          category_name: string
+          description: string
+          id?: number
+          image_urls: string[]
+          inserted_at?: string
+          name: string
+          original_price?: number | null
+          price: number
+          short_description: string
+          slug: string
+          stock_quantity: number
+          updated_at?: string
+        }
+        Update: {
+          category_name?: string
+          description?: string
+          id?: number
+          image_urls?: string[]
+          inserted_at?: string
+          name?: string
+          original_price?: number | null
+          price?: number
+          short_description?: string
+          slug?: string
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
-          created_at: string
-          email: string
-          full_name: string
-          id: number
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
           phone_number: string | null
-          updated_at: string
-          user_id: string | null
+          updated_at: string | null
         }
         Insert: {
           avatar_url?: string | null
-          created_at?: string
-          email: string
-          full_name: string
-          id?: number
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
           phone_number?: string | null
-          updated_at?: string
-          user_id?: string | null
+          updated_at?: string | null
         }
         Update: {
           avatar_url?: string | null
-          created_at?: string
-          email?: string
-          full_name?: string
-          id?: number
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
           phone_number?: string | null
-          updated_at?: string
-          user_id?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }

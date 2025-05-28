@@ -8,7 +8,7 @@ const HomeBanner = () => {
       <Image
         source={require("@/assets/images/home-banner.png")}
         contentFit="contain"
-        transition={1000}
+        transition={800}
         style={{ width: "100%", height: 200 }}
       />
     </View>

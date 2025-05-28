@@ -1,9 +1,9 @@
 import ThemeSwitch from "@/components/ThemeSwitch";
-import { Tables } from "@/supabase";
+import { Tables } from "@/types/supabase";
 import { useAuth } from "@/utils/AuthProvider";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const profilePage = () => {

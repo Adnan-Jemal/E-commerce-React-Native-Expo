@@ -1,0 +1,108 @@
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useLocalSearchParams } from "expo-router"; // Removed useNavigation as it wasn't used
+import { Tables } from "@/types/supabase";
+import { supabase } from "@/utils/supabase";
+import { Ionicons, FontAwesome6 } from "@expo/vector-icons"; // Removed AntDesign as it wasn't used
+import ProductImages from "@/components/Details/ProductImages";
+import ProductDescription from "@/components/Details/ProductDescription";
+import RecommendedProducts from "@/components/Details/RecommendedProducts";
+import ProductInfo from "@/components/Details/ProductInfo";
+
+const ProductPage = () => {
+  const { id } = useLocalSearchParams(); // id is string | string[]
+  const [product, setProduct] = useState<Tables<"products"> | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      if (!id) {
+        setLoading(false);
+        setError("Product ID is missing.");
+        return;
+      }
+
+      setLoading(true);
+      setError(""); // Reset error on new fetch
+      try {
+        const { data, error: fetchError } = await supabase
+          .from("products")
+          .select()
+          .eq("id", id)
+          .single();
+
+        if (fetchError) throw fetchError;
+
+        if (data) {
+          setProduct(data);
+        } else {
+          setError("Product not found.");
+        }
+      } catch (e: any) {
+        console.error("Failed to fetch product:", e);
+        setError(e.message || "Failed to load product details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductDetails();
+  }, [id]); // Dependency array is correct
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center dark:bg-neutral-900">
+        <ActivityIndicator color="#1d4ed8" size="large" />
+      </View>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center dark:bg-neutral-900">
+        <Text className="dark:text-white text-lg p-4">
+          {error || "Product not found."}
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView edges={["bottom"]} className="flex-1 relative dark:bg-black ">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        className="dark:bg-neutral-900 flex-1 px-4"
+      >
+        <ProductImages productImages={product.image_urls} />
+        <ProductInfo
+          name={product.name}
+          category_name={product.category_name}
+          stock_quantity={product.stock_quantity}
+          price={product.price}
+          original_price={product.original_price}
+        />
+        <ProductDescription
+          short_description={product.short_description}
+          description={product.description}
+        />
+        <View className="mb-10 mt-8">
+          <RecommendedProducts ProductId={product.id} limit={10} />
+        </View>
+      </ScrollView>
+
+      <TouchableOpacity className="bg-blue-700 p-4 w-[90%] self-center rounded-2xl items-center my-3">
+        <Text className="text-white text-xl font-semibold">Add to Cart</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
+
+export default ProductPage;
