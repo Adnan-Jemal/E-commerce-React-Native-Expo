@@ -24,6 +24,10 @@ const SearchBar = ({
       <View className="flex-row max-w-full w-full mx-2 self-center px-2 gap-2 ">
         <View className=" flex-row items-center justify-between border-2 border-neutral-300 dark:border-neutral-700 rounded-2xl flex-1 ">
           <TextInput
+            keyboardType="web-search"
+            onSubmitEditing={
+              handleSearch ? handleSearch : () => router.push("/search")
+            }
             value={searchTerm}
             onChangeText={(text) => setSearchTerm && setSearchTerm(text)}
             placeholderTextColor={`${

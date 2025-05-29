@@ -5,15 +5,17 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase";
 import ProductImages from "@/components/Details/ProductImages";
 import ProductDescription from "@/components/Details/ProductDescription";
 import RecommendedProducts from "@/components/Details/RecommendedProducts";
 import ProductInfo from "@/components/Details/ProductInfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AddToCartBtn from "@/components/Details/AddToCartBtn";
 
 const ProductPage = () => {
   const { id } = useLocalSearchParams();
@@ -21,38 +23,37 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const fetchProductDetails = async () => {
+    if (!id) {
+      setLoading(false);
+      setError("Product ID is missing.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    try {
+      const { data, error: fetchError } = await supabase
+        .from("products")
+        .select()
+        .eq("id", id)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      if (data) {
+        setProduct(data);
+      } else {
+        setError("Product not found.");
+      }
+    } catch (e: any) {
+      console.error("Failed to fetch product:", e);
+      setError(e.message || "Failed to load product details.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchProductDetails = async () => {
-      if (!id) {
-        setLoading(false);
-        setError("Product ID is missing.");
-        return;
-      }
-
-      setLoading(true);
-      setError("");
-      try {
-        const { data, error: fetchError } = await supabase
-          .from("products")
-          .select()
-          .eq("id", id)
-          .single();
-
-        if (fetchError) throw fetchError;
-
-        if (data) {
-          setProduct(data);
-        } else {
-          setError("Product not found.");
-        }
-      } catch (e: any) {
-        console.error("Failed to fetch product:", e);
-        setError(e.message || "Failed to load product details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProductDetails();
   }, [id]);
 
@@ -96,10 +97,7 @@ const ProductPage = () => {
           <RecommendedProducts ProductId={product.id} limit={10} />
         </View>
       </ScrollView>
-
-      <TouchableOpacity className="bg-blue-700 p-4 w-[90%] self-center rounded-2xl items-center my-3">
-        <Text className="text-white text-xl font-semibold">Add to Cart</Text>
-      </TouchableOpacity>
+      {product && <AddToCartBtn product={product} />}
     </SafeAreaView>
   );
 };
