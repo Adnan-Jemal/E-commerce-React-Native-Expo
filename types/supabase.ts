@@ -34,6 +34,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      favorites: {
+        Row: {
+          created_at: string | null
+          id: number
+          product_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          product_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          product_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           category_name: string
@@ -48,6 +77,7 @@ export type Database = {
           slug: string
           stock_quantity: number
           updated_at: string
+          views: number
         }
         Insert: {
           category_name: string
@@ -62,6 +92,7 @@ export type Database = {
           slug: string
           stock_quantity: number
           updated_at?: string
+          views?: number
         }
         Update: {
           category_name?: string
@@ -76,6 +107,7 @@ export type Database = {
           slug?: string
           stock_quantity?: number
           updated_at?: string
+          views?: number
         }
         Relationships: []
       }
@@ -114,7 +146,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_random_products: {
+        Args: { limit_count: number }
+        Returns: {
+          category_name: string
+          description: string
+          id: number
+          image_urls: string[]
+          inserted_at: string
+          name: string
+          original_price: number | null
+          price: number
+          short_description: string
+          slug: string
+          stock_quantity: number
+          updated_at: string
+          views: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -10,7 +10,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { Tables } from "@/types/supabase";
 import { supabase } from "@/utils/supabase";
-
 import ProductImages from "@/components/Details/ProductImages";
 import ProductDescription from "@/components/Details/ProductDescription";
 import RecommendedProducts from "@/components/Details/RecommendedProducts";
@@ -31,7 +30,7 @@ const ProductPage = () => {
       }
 
       setLoading(true);
-      setError(""); // Reset error on new fetch
+      setError("");
       try {
         const { data, error: fetchError } = await supabase
           .from("products")
@@ -55,7 +54,7 @@ const ProductPage = () => {
     };
 
     fetchProductDetails();
-  }, [id]); // Dependency array is correct
+  }, [id]);
 
   if (loading) {
     return (

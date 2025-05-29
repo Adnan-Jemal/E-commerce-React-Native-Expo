@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Tables } from "@/types/supabase";
 
 import ProductList from "@/components/ProductList";
+import { Link } from "expo-router";
 
 const index = () => {
   const [popularProducts, setPopularProducts] = useState<
@@ -45,7 +46,10 @@ const index = () => {
           <FavoritesBtn />
         </View>
         <View className="mt-6 gap-8">
-          <SearchBar />
+          <Link href={"/search"}>
+            <SearchBar disabled />
+          </Link>
+
           <HomeBanner />
         </View>
         <View className="mt-4 p-2 gap-4">
