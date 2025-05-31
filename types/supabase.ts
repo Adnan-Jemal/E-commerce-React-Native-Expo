@@ -63,6 +63,48 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          address: string
+          country: string
+          created_at: string
+          full_name: string
+          id: number
+          ordered_products: number[]
+          phone_number: string
+          state_city: string
+          sub_total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address: string
+          country: string
+          created_at?: string
+          full_name: string
+          id?: number
+          ordered_products: number[]
+          phone_number: string
+          state_city: string
+          sub_total: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          country?: string
+          created_at?: string
+          full_name?: string
+          id?: number
+          ordered_products?: number[]
+          phone_number?: string
+          state_city?: string
+          sub_total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category_name: string

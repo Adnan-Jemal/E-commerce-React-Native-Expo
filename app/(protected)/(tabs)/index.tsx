@@ -58,8 +58,8 @@ const index = () => {
         </View>
         <View className="mt-4 p-2 gap-4 w-full">
           <Text className="dark:text-white text-3xl font-bold">Popular</Text>
-          {loading ? (<ActivityIndicator color="#1d4ed8" />
-            
+          {loading ? (
+            <ActivityIndicator color="#1d4ed8" />
           ) : (
             <ProductList products={popularProducts} />
           )}

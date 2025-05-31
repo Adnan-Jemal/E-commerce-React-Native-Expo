@@ -1,50 +1,17 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Image } from "expo-image";
-import { Link, router, useFocusEffect } from "expo-router";
-import { Tables } from "@/types/supabase";
-import { FontAwesome6, Octicons } from "@expo/vector-icons";
 import CartItemList from "@/components/cart/CartItemList";
+import { useCart } from "@/providers/CartProvider";
+import { Link } from "expo-router";
+import { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const cart = () => {
-  const [cartItems, setCartItems] = useState<Tables<"products">[] | []>([]);
-  const [loading, setLoading] = useState(true);
+  const { cartItems, loadingCart, removeFromCart } = useCart();
+  const [subTotal, setSubTotal] = useState(0);
 
-  const loadCartItems = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("cart");
-      setCartItems(jsonValue ? JSON.parse(jsonValue) : []);
-    } catch (e) {
-      console.log("Error Loading Cart Items", e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const removeCartItem = async (productId: number) => {
-    const removedCart = cartItems.filter((p) => p.id != productId);
-    try {
-      await AsyncStorage.setItem("cart", JSON.stringify(removedCart));
-      loadCartItems();
-    } catch (error) {
-      console.log("Error removing cart item", error);
-    }
-  };
-
-  //get current products in cart
-  useFocusEffect(
-    useCallback(() => {
-      loadCartItems();
-    }, [])
-  );
+  useEffect(() => {
+    cartItems.forEach(({ price }) => setSubTotal((prev) => prev + price));
+  }, [cartItems]);
 
   return (
     <SafeAreaView
@@ -54,20 +21,34 @@ const cart = () => {
       <View className="py-2 self-center items-center justify-center">
         <Text className="text-4xl font-bold dark:text-white  ">Cart</Text>
       </View>
-      {loading ? (
+      {loadingCart ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color="#1d4ed8" />
         </View>
       ) : (
-        <CartItemList cartItems={cartItems} removeCartItem={removeCartItem} />
+        <CartItemList cartItems={cartItems} removeCartItem={removeFromCart} />
       )}
 
       {cartItems.length > 0 && (
-        <TouchableOpacity
-          className={`bg-blue-700 p-4 w-[90%] self-center rounded-2xl items-center my-4`}
-        >
-          <Text className="text-white text-xl font-semibold">Checkout</Text>
-        </TouchableOpacity>
+        <View className="my-4 w-[90%] self-center justify-center gap-2 ">
+          <View className="flex-row justify-between items-center px-2">
+            <Text className="dark:text-white text-xl">
+              SubTotal ({cartItems.length} products):
+            </Text>
+            <Text className="dark:text-white text-2xl font-bold">
+              ${subTotal.toFixed(2)}
+            </Text>
+          </View>
+          <Link href={"/checkout"} asChild>
+            <TouchableOpacity
+              className={`bg-blue-700 p-4 w-full   rounded-2xl items-center my-2`}
+            >
+              <Text className="text-white text-xl font-semibold">
+                Continue to checkout
+              </Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
       )}
     </SafeAreaView>
   );

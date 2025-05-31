@@ -1,8 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
-import { useAuth } from "@/utils/AuthProvider";
 import { supabase } from "@/utils/supabase";
 
 const AddToFavoriteBtn = ({
@@ -11,21 +9,22 @@ const AddToFavoriteBtn = ({
   userId,
 }: {
   tintColor: string | undefined;
-  productId: string | string[];
+  productId: string | undefined;
   userId: string | undefined;
 }) => {
   const [favorited, setFavorited] = useState(false);
-
+  const pid = productId ? parseInt(productId) : 0;
   async function isProductFavorited() {
     if (!userId || !productId) {
       return;
     }
+
     try {
       const { data, error, count } = await supabase
         .from("favorites")
         .select("*", { count: "exact", head: true })
         .eq("user_id", userId)
-        .eq("product_id", productId);
+        .eq("product_id", pid);
 
       if (error) throw error;
       setFavorited(!!count);
@@ -46,7 +45,7 @@ const AddToFavoriteBtn = ({
     try {
       const { error } = await supabase
         .from("favorites")
-        .insert({ user_id: userId, product_id: productId });
+        .insert({ user_id: userId, product_id: pid });
 
       if (error) throw error;
       setFavorited(true);
@@ -64,7 +63,7 @@ const AddToFavoriteBtn = ({
         .from("favorites")
         .delete()
         .eq("user_id", userId)
-        .eq("product_id", productId);
+        .eq("product_id", pid);
 
       if (error) throw error;
       setFavorited(false);

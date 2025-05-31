@@ -2,8 +2,8 @@ import { View, Text, ScrollView, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
 import ProductList from "@/components/ProductList";
 import { supabase } from "@/utils/supabase";
-import { useAuth } from "@/utils/AuthProvider";
 import { Tables } from "@/types/supabase";
+import { useAuth } from "@/providers/AuthProvider";
 
 const FavoritesPage = () => {
   const { user } = useAuth();

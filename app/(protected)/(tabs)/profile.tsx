@@ -1,7 +1,8 @@
 import ThemeSwitch from "@/components/ThemeSwitch";
+import { useAuth } from "@/providers/AuthProvider";
 import { Tables } from "@/types/supabase";
-import { useAuth } from "@/utils/AuthProvider";
 import { supabase } from "@/utils/supabase";
+import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +25,9 @@ const profilePage = () => {
       <TouchableOpacity onPress={() => supabase.auth.signOut()}>
         <Text>Log out</Text>
       </TouchableOpacity>
+      <Link href={"/orders"} className="text-3xl font-bold dark:text-white">
+        Orders
+      </Link>
       <Text> {user?.user_metadata.full_name}</Text>
     </SafeAreaView>
   );

@@ -18,10 +18,10 @@ const RecommendedProducts = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchRandomProducts = async () => {
       if (!ProductId) {
         setLoading(false);
-        setProducts([]); // Or set an appropriate empty state
+        setProducts([]);
         return;
       }
 
@@ -44,7 +44,7 @@ const RecommendedProducts = ({
       }
     };
 
-    fetchRecommendations();
+    fetchRandomProducts();
   }, [ProductId, limit]); // Re-fetch if these props change
 
   if (error) {

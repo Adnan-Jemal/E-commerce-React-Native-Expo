@@ -22,21 +22,15 @@ const ProductPage = () => {
   const [product, setProduct] = useState<Tables<"products"> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const productId = Array.isArray(id) ? id[0] : id;
   const fetchProductDetails = async () => {
-    if (!id) {
-      setLoading(false);
-      setError("Product ID is missing.");
-      return;
-    }
-
     setLoading(true);
     setError("");
     try {
       const { data, error: fetchError } = await supabase
         .from("products")
         .select()
-        .eq("id", id)
+        .eq("id", parseInt(productId))
         .single();
 
       if (fetchError) throw fetchError;
@@ -46,9 +40,9 @@ const ProductPage = () => {
       } else {
         setError("Product not found.");
       }
-    } catch (e: any) {
+    } catch (e) {
       console.error("Failed to fetch product:", e);
-      setError(e.message || "Failed to load product details.");
+      setError("Failed to load product details.");
     } finally {
       setLoading(false);
     }

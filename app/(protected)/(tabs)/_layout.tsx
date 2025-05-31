@@ -1,11 +1,11 @@
+import { useCart } from "@/providers/CartProvider";
 import { Feather, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { useColorScheme } from "nativewind";
-import React from "react";
 
 export default function TabLayout() {
   const scheme = useColorScheme();
-
+  const { cartItems } = useCart();
   return (
     <Tabs
       screenOptions={{
@@ -16,7 +16,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: scheme.colorScheme === "dark" ? "#171717" : "white",
           height: 90,
-          paddingTop: 10
+          paddingTop: 10,
         },
       }}
     >
@@ -44,6 +44,8 @@ export default function TabLayout() {
         name="cart"
         options={{
           headerShown: false,
+          tabBarBadge: cartItems.length > 0 ? cartItems.length : undefined,
+          tabBarBadgeStyle: { backgroundColor: "#1d4ed8" },
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
               name="cart-outline"
