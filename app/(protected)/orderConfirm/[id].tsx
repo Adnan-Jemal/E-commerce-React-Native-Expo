@@ -98,6 +98,22 @@ const orderConfirmationPage = () => {
             Pending
           </Text>
         </View>
+        <View className="flex-row justify-between">
+          <Text className="text-neutral-600 dark:text-neutral-300 text-xl">
+            ordered Products:
+          </Text>
+          <Text className="font-semibold dark:text-white text-neutral-800 capitalize text-xl">
+            {order.ordered_products.length}
+          </Text>
+        </View>
+        <View className="flex-row justify-between">
+          <Text className="text-neutral-600 dark:text-neutral-300 text-xl">
+            Total:
+          </Text>
+          <Text className="font-semibold dark:text-white text-neutral-800 capitalize text-xl">
+            ${(order.sub_total * 0.15 + order.sub_total).toFixed(2)}
+          </Text>
+        </View>
       </View>
 
       <TouchableOpacity
