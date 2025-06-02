@@ -4,7 +4,7 @@
 
 A feature-rich mobile e-commerce application built with React Native (Expo) and Supabase. This app offers a complete shopping experience, from user authentication and product Browse to cart management and ordering, showcasing a comprehensive full-stack mobile development skill set.
 
-**Live Demo/Expo Go:** [https://drive.google.com/file/d/1X27YEzPG8MGMnk-Amy_yXDTWAX0-qw7b/view?usp=sharing]
+**Live Demo/Expo Go:** [https://drive.google.com/file/d/1M6qRpPMNjCC_j0zaSgl3TTNivg0vfMZh/view?usp=sharing]
 
 ## Screenshots
 
