@@ -6,22 +6,15 @@ A feature-rich mobile e-commerce application built with React Native (Expo) and 
 
 **Live Demo/Expo Go:** [https://drive.google.com/file/d/1X27YEzPG8MGMnk-Amy_yXDTWAX0-qw7b/view?usp=sharing]
 
-**Screenshots:**
+## Screenshots
 
-**Homepage**
-![Homepage Screenshot showing product listings](./assets/images/screenShots/homePageShot.jpg)
-
-**Product Detail Page**
-![Product Detail Page with image carousel and add to cart button](./assets/images/screenShots/detailsPageShot.jpg)
-
-**Shopping Cart**
-![Shopping Cart with items and proceed to checkout button](./assets/images/screenShots/cartPageShot.jpg)
-
-**Search Page**
-![Search page with list of categories and search bar](./assets/images/screenShots/searchPageShot.jpg)
-
-**Profile Page**
-![Profile page with controls and personal information](./assets/images/screenShots/searchPageShot.jpg)
+<p align="center">
+  <img src="./assets/images/screenShots/homePageShot.jpg" alt="Homepage Screenshot" width="19%"/>
+  <img src="./assets/images/screenShots/detailsPageShot.jpg" alt="Product Detail Page" width="19%"/>  
+  <img src="./assets/images/screenShots/searchPageShot.jpg" alt="Search page" width="19%"/>
+  <img src="./assets/images/screenShots/cartPageShot.jpg" alt="Shopping Cart" width="19%"/>
+  <img src="./assets/images/screenShots/profilePageShot.jpg" alt="Profile page" width="19%"/> 
+  </p>
 
 ---
 
@@ -93,7 +86,7 @@ Follow these instructions to set up the project locally for development.
 1.  **Clone the repository:**
 
     ```bash
-    git clone (https://github.com/Adnan-Jemal/E-commerce-React-Native-Expo.git)
+    git clone https://github.com/Adnan-Jemal/E-commerce-React-Native-Expo.git
     cd E-commerce-React-Native-Expo
     ```
 
@@ -127,7 +120,7 @@ Follow these instructions to set up the project locally for development.
 5.  **Set up Supabase Database Schema:**
 
     - The complete database schema for this project (including all tables, custom types like enums, database functions, triggers, and Row Level Security policies) is defined in the **`supabase_schema.sql`** file located in the root of this repository.
-      _(Note: If you named your schema dump file differently or placed it in a subfolder, please adjust the filename/path in this instruction accordingly)._
+  
     - To set up the database schema in your new Supabase project:
       1.  Navigate to your Supabase project dashboard.
       2.  In the left sidebar, click on the **SQL Editor** icon (it looks like a page with SQL on it).
@@ -138,7 +131,6 @@ Follow these instructions to set up the project locally for development.
       7.  Click the green **"RUN"** button (or press `Ctrl+Enter` / `Cmd+Enter`).
     - This script will execute and create all necessary database objects. This process might take a few moments.
     - **Important for RLS:** The schema file should include your Row Level Security (RLS) policies. After running the script, you can verify these in the "Authentication" > "Policies" section of the Supabase Dashboard for each table.
-
 
 6.  **Google Sign-In Setup:**
 
