@@ -20,6 +20,7 @@ export default function RootLayout() {
         <CartProvider>
           <Stack>
             <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+            <Stack.Screen name="signin" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar style="auto" />

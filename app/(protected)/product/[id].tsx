@@ -36,6 +36,11 @@ const ProductPage = () => {
       if (fetchError) throw fetchError;
 
       if (data) {
+        const { error: viewUpdateErr } = await supabase
+          .from("products")
+          .update({ views: data.views + 1 })
+          .eq("id", data.id);
+        if (viewUpdateErr) console.log(viewUpdateErr.message);
         setProduct(data);
       } else {
         setError("Product not found.");

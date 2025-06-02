@@ -57,24 +57,18 @@ export default function GoogleSignInBtn() {
   return (
     <TouchableOpacity
       className={`
-        flex-row items-center justify-center rounded-xl px-5 py-3  shadow-md w-full
+        px-6 py-4 rounded-xl items-center 
         bg-blue-700
       `}
       onPress={handleGoogleSignIn}
       disabled={loading}
     >
       {loading ? (
-        <ActivityIndicator size="small" color="#ffffff" />
+        <ActivityIndicator size="small" color="white" />
       ) : (
-        <View className="flex-row items-center">
-          {/* <Image
-            source={require("../assets/images/google-icon.png")} // <-- Make sure path is correct
-            className="w-6 h-6 mr-[15px]" // using arbitrary value for specific margin
-          /> */}
-          <Text className="text-white text-xl font-semibold">
-            Sign in with Google
-          </Text>
-        </View>
+        <Text className=" text-center font-bold text-2xl text-white">
+          Sign in with Google
+        </Text>
       )}
     </TouchableOpacity>
   );
