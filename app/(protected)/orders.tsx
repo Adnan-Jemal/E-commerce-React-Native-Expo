@@ -76,7 +76,7 @@ const OrdersPage = () => {
               <View className="items-center">
                 <Text className="text-neutral-500">SubTotal</Text>
                 <Text className="text-3xl dark:text-white">
-                  {item.sub_total}
+                  ${item.sub_total}
                 </Text>
               </View>
             </TouchableOpacity>

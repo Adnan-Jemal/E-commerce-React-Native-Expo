@@ -70,7 +70,7 @@ const orderConfirmationPage = () => {
       </View>
 
       {/* Order Summary */}
-      <View className="mx-24 my-4 p-4 w-full dark:bg-neutral-800 bg-neutral-300 rounded-xl ">
+      <View className="mx-24 my-4 p-4 w-full dark:bg-neutral-800 bg-white rounded-xl ">
         <Text className="text-2xl font-semibold dark:text-white text-neutral-800 mb-3">
           Order Summary
         </Text>
